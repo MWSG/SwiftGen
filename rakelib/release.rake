@@ -47,29 +47,29 @@ namespace :release do
       'Please ensure SwiftGen & SwiftGenKit use the same version numbers'
     )
 
-    # Check if version matches the SwiftGen-Info.plist
-    sg_plist = Utils.plist_version('SwiftGen')
+    # Check if version matches the Versions.swift
+    sg_code = File.open('Sources/SwiftGen/Version.swift').grep(/swiftgen = "(.+)"/) { Regexp.last_match(1) }.first
     results << Utils.table_result(
-      sg_version == sg_plist[0] && sg_plist[0] == sg_plist[1],
-      'SwiftGen-Info.plist version matches',
-      'Please update the version numbers in the SwiftGen-Info.plist file'
+      sg_version == sg_code,
+      'SwiftGen Version.swift version matches',
+      'Please update the version numbers in Versions.swift file'
     )
 
-    # Check if version matches the SwiftGenKit-Info.plist
-    sgk_plist = Utils.plist_version('SwiftGenKit')
+    # Check if version matches the Versions.swift
+    sgk_code = File.open('Sources/SwiftGen/Version.swift').grep(/swiftGenKit = "(.+)"/) { Regexp.last_match(1) }.first
     results << Utils.table_result(
-      sgk_version == sgk_plist[0] && sgk_plist[0] == sgk_plist[1],
-      'SwiftGenKit-Info.plist version matches',
-      'Please update the version numbers in the SwiftGenKit-Info.plist file'
+      sgk_version == sgk_code,
+      'SwiftGenKit Version.swift version matches',
+      'Please update the version numbers in Versions.swift file'
     )
 
     # Check StencilSwiftKit version too
-    lock_version = Utils.podfile_lock_version('StencilSwiftKit')
+    lock_version = Utils.spm_resolved_version('StencilSwiftKit')
     pod_version = Utils.pod_trunk_last_version('StencilSwiftKit')
     results << Utils.table_result(
       lock_version == pod_version,
       "StencilSwiftKit up-to-date (latest: #{pod_version})",
-      'Please update StencilSwiftKit to latest version in your Podfile'
+      'Please update StencilSwiftKit to latest version in your Package.swift'
     )
 
     # Check if entry present in CHANGELOG
