@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
     git: 'https://github.com/SwiftGen/SwiftGenKit.git',
     tag: s.version.to_s
   }
-  s.source_files = 'Sources/**/*.swift'
+  s.source_files = 'Sources/SwiftGenKit/**/*.swift'
 
   s.dependency 'Kanna', '~> 5.2'
   s.dependency 'PathKit', '~> 0.9'
